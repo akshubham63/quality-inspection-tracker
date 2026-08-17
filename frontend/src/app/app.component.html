@@ -1,0 +1,38 @@
+<div class="app-container">
+  @if (authService.isAuthenticated()) {
+    <header class="app-header">
+      <div class="header-content">
+        <div>
+          <h1>Quality Inspection Tracker</h1>
+          <p class="app-header-subtitle">Shop Floor Management</p>
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{
+            (authService.currentUser$ | async)?.fullName
+          }}</span>
+          <button class="btn-logout" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="tabs" style="margin: var(--spacing-md); margin-bottom: 0">
+      <a
+        class="tab"
+        routerLink="/inspections"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Inspections
+      </a>
+      <a class="tab" routerLink="/summary" routerLinkActive="active">
+        Summary
+      </a>
+    </nav>
+  }
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-toast></app-toast>
+</div>

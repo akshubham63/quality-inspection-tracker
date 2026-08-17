@@ -1,0 +1,21 @@
+# Backend
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+*.db
+.idea/
+*.iml
+
+# Frontend
+node_modules/
+dist/
+.angular/
+.npm/
+
+# General
+.DS_Store
+*.swp
+*.swo
+.env
+.env.local

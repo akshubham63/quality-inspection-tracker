@@ -1,0 +1,134 @@
+<div class="form-container">
+  <div class="card" style="margin: var(--spacing-md)">
+    <div class="card-header">
+      <h2 style="font-size: 1.125rem; font-weight: 600">Log New Inspection</h2>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #inspectionForm="ngForm">
+        <div class="form-group">
+          <label class="form-label">Inspection Date *</label>
+          <input
+            type="date"
+            class="form-input"
+            [(ngModel)]="inspection.inspectionDate"
+            name="inspectionDate"
+            required
+            [max]="today"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Machine/Line ID *</label>
+          <input
+            type="text"
+            class="form-input"
+            [(ngModel)]="inspection.machineLineId"
+            name="machineLineId"
+            placeholder="e.g., LINE-001, MACHINE-A5"
+            required
+            maxlength="100"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Defect Type *</label>
+          <select
+            class="form-select"
+            [(ngModel)]="inspection.defectType"
+            name="defectType"
+            required
+          >
+            <option [ngValue]="undefined" disabled>Select defect type</option>
+            @for (defect of defectTypes; track defect.value) {
+              <option [value]="defect.value">{{ defect.label }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Severity *</label>
+          <div class="severity-options">
+            @for (sev of severities; track sev.value) {
+              <label
+                class="severity-option"
+                [class.selected]="inspection.severity === sev.value"
+              >
+                <input
+                  type="radio"
+                  [(ngModel)]="inspection.severity"
+                  [value]="sev.value"
+                  name="severity"
+                  required
+                />
+                <span
+                  class="severity-label"
+                  [ngClass]="'severity-' + sev.value.toLowerCase()"
+                >
+                  {{ sev.label }}
+                </span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Remarks (Optional)</label>
+          <textarea
+            class="form-textarea"
+            [(ngModel)]="inspection.remarks"
+            name="remarks"
+            placeholder="Add any additional notes about the defect..."
+            rows="3"
+            maxlength="500"
+          ></textarea>
+          <div
+            style="
+              text-align: right;
+              font-size: 0.75rem;
+              color: var(--text-muted);
+              margin-top: 0.25rem;
+            "
+          >
+            {{ inspection.remarks?.length || 0 }}/500
+          </div>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+          "
+        >
+          <button
+            type="button"
+            class="btn btn-secondary btn-full"
+            routerLink="/inspections"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary btn-full"
+            [disabled]="!isFormValid() || submitting"
+          >
+            @if (submitting) {
+              <div
+                class="spinner"
+                style="
+                  width: 16px;
+                  height: 16px;
+                  border-color: rgba(255, 255, 255, 0.3);
+                  border-top-color: white;
+                "
+              ></div>
+              Saving...
+            } @else {
+              Save Inspection
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

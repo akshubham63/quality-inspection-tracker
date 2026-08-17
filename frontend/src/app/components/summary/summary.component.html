@@ -1,0 +1,145 @@
+<div class="summary-container">
+  @if (loading) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+    </div>
+  }
+
+  @if (!loading && summary) {
+    <!-- Total Overview -->
+    <div class="section" style="padding: var(--spacing-md)">
+      <h3
+        style="
+          font-size: 1rem;
+          font-weight: 600;
+          margin-bottom: var(--spacing-md);
+          color: var(--text-secondary);
+        "
+      >
+        Overview
+      </h3>
+      <div class="summary-grid">
+        <div
+          class="summary-card"
+          style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)"
+        >
+          <div class="summary-card-value" style="color: #92400e">
+            {{ summary.totalOpen }}
+          </div>
+          <div class="summary-card-label">Open</div>
+        </div>
+        <div
+          class="summary-card"
+          style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)"
+        >
+          <div class="summary-card-value" style="color: #065f46">
+            {{ summary.totalResolved }}
+          </div>
+          <div class="summary-card-label">Resolved</div>
+        </div>
+        <div
+          class="summary-card"
+          style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)"
+        >
+          <div class="summary-card-value" style="color: #3730a3">
+            {{ summary.total }}
+          </div>
+          <div class="summary-card-label">Total</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- By Severity -->
+    <div class="section" style="padding: var(--spacing-md); padding-top: 0">
+      <h3
+        style="
+          font-size: 1rem;
+          font-weight: 600;
+          margin-bottom: var(--spacing-md);
+          color: var(--text-secondary);
+        "
+      >
+        By Severity
+      </h3>
+
+      <div class="severity-table">
+        <div class="severity-row severity-header">
+          <div class="severity-cell">Severity</div>
+          <div class="severity-cell">Open</div>
+          <div class="severity-cell">Resolved</div>
+          <div class="severity-cell">Total</div>
+        </div>
+        <div class="severity-row">
+          <div class="severity-cell">
+            <span class="badge badge-critical">Critical</span>
+          </div>
+          <div class="severity-cell">{{ summary.critical.open }}</div>
+          <div class="severity-cell">{{ summary.critical.resolved }}</div>
+          <div class="severity-cell font-bold">
+            {{ summary.critical.total }}
+          </div>
+        </div>
+        <div class="severity-row">
+          <div class="severity-cell">
+            <span class="badge badge-major">Major</span>
+          </div>
+          <div class="severity-cell">{{ summary.major.open }}</div>
+          <div class="severity-cell">{{ summary.major.resolved }}</div>
+          <div class="severity-cell font-bold">{{ summary.major.total }}</div>
+        </div>
+        <div class="severity-row">
+          <div class="severity-cell">
+            <span class="badge badge-minor">Minor</span>
+          </div>
+          <div class="severity-cell">{{ summary.minor.open }}</div>
+          <div class="severity-cell">{{ summary.minor.resolved }}</div>
+          <div class="severity-cell font-bold">{{ summary.minor.total }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="section" style="padding: var(--spacing-md); padding-top: 0">
+      <h3
+        style="
+          font-size: 1rem;
+          font-weight: 600;
+          margin-bottom: var(--spacing-md);
+          color: var(--text-secondary);
+        "
+      >
+        Quick Stats
+      </h3>
+      <div class="stats-list">
+        <div class="stat-item">
+          <span class="stat-label">Resolution Rate</span>
+          <span class="stat-value">{{ getResolutionRate() }}%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Critical Issues Open</span>
+          <span
+            class="stat-value"
+            [style.color]="
+              summary.critical.open > 0
+                ? 'var(--danger-color)'
+                : 'var(--success-color)'
+            "
+          >
+            {{ summary.critical.open }}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Most Common Severity</span>
+          <span class="stat-value">{{ getMostCommonSeverity() }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!loading && !summary) {
+    <div class="empty-state">
+      <div class="empty-state-icon">📊</div>
+      <p>No data available</p>
+    </div>
+  }
+</div>
